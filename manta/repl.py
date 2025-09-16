@@ -1,11 +1,32 @@
+from manta.tokens import TokenType
 from manta.lexer import Lexer
-from manta.tokens import(
-    Token,
-    TokenType
-)
-EOF_TOKEN:Token=Token(TokenType.EOF,'')
-def start_repl()->None:
-    while(source:=input('>> '))!='salir()':
-        lexer:Lexer=Lexer(source)
-        while(token:=lexer.next_token())!=EOF_TOKEN:
-            print(token)
+from manta.parser import Parser
+
+PROMPT = ">> "
+
+def start():
+    
+    while True:
+        try:
+            line = input(PROMPT)
+        except (EOFError, KeyboardInterrupt):
+            print("\nBye!")
+            break
+
+        if not line.strip():
+            continue
+
+        l = Lexer(line)
+        p = Parser(l)
+        program = p.parse_program()
+
+        if len(p.errors) > 0:
+            print("Parser errors:")
+            for e in p.errors:
+                print(f"  - {e}")
+            continue
+
+        print(program.string())
+
+if __name__ == "__main__":
+    start()

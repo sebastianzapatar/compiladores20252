@@ -16,6 +16,7 @@ class TokenType(Enum):
     EOF= auto()
     EQ= auto()
     FALSE= auto()
+    FOR=auto()
     FUNCTION= auto()
     GT= auto()
     GTE= auto()
@@ -44,4 +45,14 @@ class Token(NamedTuple):
     def __str__(self):
         return f"Type: {self.tokenType}, Literal {self.literal}"
 
-
+def lookup_token_type(literal:str)->TokenType:
+    keywords:Dict[str,TokenType]={
+        'false':TokenType.FALSE,
+        'function':TokenType.FUNCTION,
+        'for':TokenType.FOR,
+        'if':TokenType.IF,
+        'else':TokenType.ELSE,
+        'let':TokenType.LET,
+        'true':TokenType.TRUE
+    }
+    return keywords.get(literal,TokenType.IDENT)
