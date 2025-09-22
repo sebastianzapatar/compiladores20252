@@ -1,11 +1,14 @@
 from manta.tokens import TokenType
 from manta.lexer import Lexer
 from manta.parser import Parser
+from manta.evaluator import evaluate
+from manta.obj import Environment
 
 PROMPT = ">> "
 
 def start():
     
+    env = Environment()
     while True:
         try:
             line = input(PROMPT)
@@ -26,7 +29,8 @@ def start():
                 print(f"  - {e}")
             continue
 
-        print(program.string())
+        result = evaluate(program, env)
+        print(result.inspect())
 
 if __name__ == "__main__":
     start()

@@ -38,6 +38,7 @@ class TokenType(Enum):
     RPAREN= auto()
     SEMICOLON= auto()
     TRUE= auto()
+    WHILE=auto()
 
 class Token(NamedTuple):
     tokenType:TokenType
@@ -53,6 +54,7 @@ def lookup_token_type(literal:str)->TokenType:
         'if':TokenType.IF,
         'else':TokenType.ELSE,
         'let':TokenType.LET,
-        'true':TokenType.TRUE
+        'true':TokenType.TRUE,
+        'while':TokenType.WHILE
     }
     return keywords.get(literal,TokenType.IDENT)
